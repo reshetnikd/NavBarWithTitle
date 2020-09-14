@@ -23,13 +23,12 @@ struct ContentView: View {
                 .navigationBarItems(leading:
                     HStack {
                         TextField("Users", text: self.$text)
-                            .font(.largeTitle)
+                            .font(.headline)
                             .lineLimit(1)
                             .foregroundColor(.black)
                         
                     }
-                    .padding()
-                    .position(CGPoint(x: geometry.size.width / 2, y: 40))
+                    .padding(.leading, geometry.size.width / 2.5)
                     .frame(width: geometry.size.width)
                 )
             }
