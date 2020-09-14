@@ -16,21 +16,10 @@ struct ContentView: View {
         NavigationView {
             GeometryReader { geometry in
                 List(self.users, id: \.self) { user in
-                    NavigationLink(destination: Text("Detail for \(user)")) {
+                    NavigationLink(destination: UserView(user: user)) {
                         Text(user)
                     }
-                }
-                .navigationBarItems(leading:
-                    HStack {
-                        TextField("Users", text: self.$text)
-                            .font(.headline)
-                            .lineLimit(1)
-                            .foregroundColor(.black)
-                        
-                    }
-                    .padding(.leading, geometry.size.width / 2.5)
-                    .frame(width: geometry.size.width)
-                )
+                }.navigationBarTitle(Text("Users"), displayMode: .large)
             }
         }
     }
@@ -39,5 +28,23 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct UserView: View {
+    @State var user: String
+    
+    var body: some View {
+        NavigationView {
+            Text(self.user)
+        }.navigationBarItems(trailing:
+            HStack {
+                TextField("\(user)", text: self.$user)
+                    .font(.headline)
+                    .lineLimit(1)
+                    .foregroundColor(.black)
+            }
+            .padding(.trailing, 140)
+        )
     }
 }
