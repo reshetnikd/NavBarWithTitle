@@ -9,8 +9,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    let users = (1...100).map { number in "User \(number)" }
+    @State private var text = ""
+
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            GeometryReader { geometry in
+                List(self.users, id: \.self) { user in
+                    NavigationLink(destination: Text("Detail for \(user)")) {
+                        Text(user)
+                    }
+                }
+                .navigationBarItems(leading:
+                    HStack {
+                        TextField("Users", text: self.$text)
+                            .font(.largeTitle)
+                            .lineLimit(1)
+                            .foregroundColor(.black)
+                        
+                    }
+                    .padding()
+                    .position(CGPoint(x: geometry.size.width / 2, y: 40))
+                    .frame(width: geometry.size.width)
+                )
+            }
+        }
     }
 }
 
