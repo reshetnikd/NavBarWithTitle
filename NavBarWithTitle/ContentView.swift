@@ -50,11 +50,24 @@ struct UserView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 30, height: 20, alignment: .center)
             })
-        }, trailing: CustomTextField(text: $user, isFirstResponder: showingTextField)
-            .frame(width: 175, height: 50)
-            .background(Color.clear)
-        )
+        }, trailing: WrapTextField(text: user, isActive: showingTextField))
     }
+}
+
+struct WrapTextField: View {
+    @State var text: String
+    var isActive: Bool
+    
+    var body: some View {
+        CustomTextField(text: $text, isFirstResponder: isActive)
+            .position(x: -(UIScreen.main.bounds.width / 3), y: 10.0)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding([.trailing, .leading], 10)
+            .padding([.vertical], 15)
+            .lineLimit(1)
+            .multilineTextAlignment(.center)
+    }
+    
 }
 
 struct CustomTextField: UIViewRepresentable {
@@ -93,5 +106,12 @@ struct CustomTextField: UIViewRepresentable {
             uiView.becomeFirstResponder()
             context.coordinator.didBecomeFirstResponder = true
         }
+    }
+}
+
+// extension for keyboard to dismiss
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
